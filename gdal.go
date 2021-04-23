@@ -2217,3 +2217,24 @@ func ReprojectImage(
 	)
 	return CPLErrContainer{ErrVal: cErr}.Err()
 }
+
+// Read all bytes from file.
+func VSIFReadAllL(file VSILFILE) []byte {
+	C.VSIFSeekL(file.cval, 0, C.SEEK_END)
+	size := int(C.VSIFTellL(file.cval))
+	C.VSIFSeekL(file.cval, 0, C.SEEK_SET)
+
+	data := make([]byte, size)
+	p := unsafe.Pointer(&data[0])
+	C.VSIFReadL(p, 1, C.size_t(size), file.cval)
+
+	return data
+}
+
+// Get file size
+func VSIFileSizeL(file VSILFILE) int {
+	C.VSIFSeekL(file.cval, 0, C.SEEK_END)
+	size := int(C.VSIFTellL(file.cval))
+	C.VSIFSeekL(file.cval, 0, C.SEEK_SET)
+	return size
+}
