@@ -396,6 +396,12 @@ func (geom Geometry) ForceToMultiPoint() Geometry {
 	return Geometry{newGeom}
 }
 
+// Convert to linestring
+func (geom Geometry) ForceToLineString() Geometry {
+	newGeom := C.OGR_G_ForceToLineString(geom.cval)
+	return Geometry{newGeom}
+}
+
 // Convert to multilinestring
 func (geom Geometry) ForceToMultiLineString() Geometry {
 	newGeom := C.OGR_G_ForceToMultiLineString(geom.cval)
