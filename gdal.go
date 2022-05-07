@@ -1156,6 +1156,11 @@ func (dataset Dataset) SetProjection(proj string) error {
 	return CPLErrContainer{ErrVal: cErr}.Err()
 }
 
+func (dataset Dataset) Spatial() SpatialReference {
+	sr := C.GDALGetSpatialRef(dataset.cval)
+	return SpatialReference{sr}
+}
+
 // Get the affine transformation coefficients
 func (dataset Dataset) GeoTransform() [6]float64 {
 	var transform [6]float64
