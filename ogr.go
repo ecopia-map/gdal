@@ -548,6 +548,7 @@ func (geom Geometry) ToKML() string {
 // Convert a geometry to JSON format
 func (geom Geometry) ToJSON() string {
 	val := C.OGR_G_ExportToJson(geom.cval)
+	defer C.free(unsafe.Pointer(val))
 	return C.GoString(val)
 }
 
